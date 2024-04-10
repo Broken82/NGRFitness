@@ -6,4 +6,7 @@
     <string name="register">Register</string>
     <string name="rejestracja">Rejestracja</string>
     <string name="haslo">Hasło</string>
+    <string name="kliknij_tutaj_aby_sie_zalogowac">Kliknij tutaj aby się zalogować</string>
+    <string name="kliknij_tutaj_aby_sie_zarejestrowac">Kliknij tutaj aby się zarejestrować</string>
+    <string name="wyloguj">Wyloguj</string>
 </resources>
