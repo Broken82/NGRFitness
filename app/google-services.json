@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "298795007569",
+    "project_id": "ngrfitness-8335e",
+    "storage_bucket": "ngrfitness-8335e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:298795007569:android:9125e7c7fae2b0298c0270",
+        "android_client_info": {
+          "package_name": "com.example.ngrfitness"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXsOhYgA-CfYEG0IbYOsjBpE2gTA4SbV8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
