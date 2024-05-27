@@ -7,10 +7,21 @@ import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +31,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,14 +43,20 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+
 import org.jetbrains.annotations.Nullable;
 import android.Manifest;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainActivity extends AppCompatActivity {
+    private final AtomicBoolean initialLayoutComplete = new AtomicBoolean(false);
+    private AdView mAdView;
+    private AdView adView;
+    private FrameLayout adContainerView;
     FirebaseAuth mAuth;
     ImageView test;
     TextView textView;
@@ -47,16 +66,25 @@ public class MainActivity extends AppCompatActivity {
     StorageReference storageReference;
     Uri image;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
         FirebaseApp.initializeApp(MainActivity.this);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+
         });
 
         mAuth = FirebaseAuth.getInstance();
@@ -68,6 +96,26 @@ public class MainActivity extends AppCompatActivity {
         test= findViewById(R.id.logo_pick);
         btnGallery = findViewById(R.id.gallery);
         storageReference = FirebaseStorage.getInstance().getReference();
+        adContainerView = findViewById(R.id.ad_view_container);
+
+        adContainerView
+                .getViewTreeObserver()
+                .addOnGlobalLayoutListener(
+                        () -> {
+                            if (!initialLayoutComplete.getAndSet(true)) {
+                                AdView adView = new AdView(this);
+                                adView.setAdSize(getAdSize());
+                                adView.setAdUnitId("ca-app-pub-3940256099942544/9214589741");
+
+                                adContainerView.removeAllViews();
+                                adContainerView.addView(adView);
+
+                                AdRequest adRequest = new AdRequest.Builder().build();
+                                adView.loadAd(adRequest);
+                            }
+                        });
+
+
 
 
 
@@ -109,6 +157,28 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+    private AdSize getAdSize() {
+        // Determine the screen width (less decorations) to use for the ad width.
+        Display display = getWindowManager().getDefaultDisplay();
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        display.getMetrics(outMetrics);
+
+        float density = outMetrics.density;
+
+        float adWidthPixels = adContainerView.getWidth();
+
+        // If the ad hasn't been laid out, default to the full screen width.
+        if (adWidthPixels == 0) {
+            adWidthPixels = outMetrics.widthPixels;
+        }
+
+        int adWidth = (int) (adWidthPixels / density);
+        return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adWidth);
+    }
+
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)

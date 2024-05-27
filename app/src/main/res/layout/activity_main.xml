@@ -52,6 +52,16 @@
             app:srcCompat="@drawable/logo" />
     </androidx.cardview.widget.CardView>
 
+    <FrameLayout
+        android:id="@+id/ad_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"
+        tools:ignore="MissingConstraints" />
+
+
+
     <Button
         android:id="@+id/info"
         android:layout_width="wrap_content"
