@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
@@ -34,6 +36,8 @@ public class Gallery extends AppCompatActivity {
 
 
     private RecyclerView pictureRecView;
+    FirebaseAuth mAuth;
+    FirebaseUser currentUser;
     private MyAdapter adapter;
     private Button backBtn;
     @Override
@@ -51,21 +55,25 @@ public class Gallery extends AppCompatActivity {
         pictureRecView = findViewById(R.id.picturesRecycle);
         pictureRecView.setAdapter(adapter);
         pictureRecView.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<Picture>pictures =new ArrayList<>();
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
 
 
 
         StorageReference storageRef = FirebaseStorage.getInstance().getReference();
-        StorageReference imagesRef = storageRef.child("images");
+        StorageReference imagesRef = storageRef.child(currentUser.getEmail());
 
         imagesRef.listAll()
                 .addOnSuccessListener(listResult -> {
+                    ArrayList<Picture>pictures =new ArrayList<>();
+                    //I don't know why but it must be here
+                    pictures.add(new Picture(1,"https://i1.sndcdn.com/avatars-5YhOoeqkl8R1QTtE-VPEy0Q-t1080x1080.jpg"));
                     for (StorageReference item : listResult.getItems()) {
-                        pictures.add(new Picture(1,"https://i.pinimg.com/originals/72/26/f9/7226f9fe5f28574c3f76f0b4f602abd3.jpg"));
+
                         item.getDownloadUrl().addOnSuccessListener(downloadUrl -> {
                             String imageUrl = downloadUrl.toString();
                             pictures.add(new Picture(1,imageUrl));
-                            pictures.add(new Picture(1,"https://i1.sndcdn.com/avatars-5YhOoeqkl8R1QTtE-VPEy0Q-t1080x1080.jpg"));
+
 
                         });
                     }
