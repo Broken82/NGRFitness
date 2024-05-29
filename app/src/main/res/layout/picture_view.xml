@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:id="@+id/parent">
     >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/imgPicture"
                 android:layout_width="wrap_content"
                 android:layout_height="300dp"
                 android:layout_marginBottom="20dp"
+                android:src="@mipmap/ic_launcher"
+                android:layout_centerHorizontal="true"
                 ></ImageView>
 
 
