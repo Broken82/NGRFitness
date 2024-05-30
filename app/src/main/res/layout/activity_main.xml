@@ -9,6 +9,18 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <FrameLayout
+        android:id="@+id/ad_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        app:layout_constraintBottom_toTopOf="@+id/user_details"
+        app:layout_constraintTop_toBottomOf="@+id/picture_btn"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp" />
+
     <Button
         android:id="@+id/bnt_logout"
         android:layout_width="101dp"
@@ -53,15 +65,7 @@
     </androidx.cardview.widget.CardView>
 
 
-    <FrameLayout
-        android:id="@+id/ad_view_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        app:layout_constraintBottom_toTopOf="@+id/user_details"
-        app:layout_constraintTop_toTopOf="@+id/user_details"
-        tools:ignore="MissingConstraints" />
+
 
     <Button
         android:id="@+id/info"
@@ -93,3 +97,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+

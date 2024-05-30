@@ -77,6 +77,7 @@ public class Register extends AppCompatActivity {
                 email = String.valueOf(editTextEmail.getText());
                 password = String.valueOf(editTextPassword.getText());
 
+
                 if(TextUtils.isEmpty(email)){
                     Toast.makeText(Register.this, "Wpisz E-mail", Toast.LENGTH_SHORT).show();
                     return;

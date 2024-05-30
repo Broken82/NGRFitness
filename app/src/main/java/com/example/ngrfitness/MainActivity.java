@@ -133,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             textView.setText(currentUser.getEmail());
+
         }
 
         buttonLogout.setOnClickListener(v -> {
