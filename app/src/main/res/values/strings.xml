@@ -9,4 +9,9 @@
     <string name="kliknij_tutaj_aby_sie_zalogowac">Kliknij tutaj aby się zalogować</string>
     <string name="kliknij_tutaj_aby_sie_zarejestrowac">Kliknij tutaj aby się zarejestrować</string>
     <string name="wyloguj">Wyloguj</string>
+    <string name="nickname">Nickname</string>
+    <string name="powrot">Powrót</string>
+    <string name="liczba_krokow">Liczba kroków:</string>
+    <string name="email2">Email:</string>
+    <string name="profil">Profil</string>
 </resources>

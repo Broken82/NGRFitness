@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     ImageView test;
     TextView textView;
-    Button btnTracks,buttonLogout,btnPicture,btnGallery;
+    Button btnTracks,buttonLogout,btnPicture,btnGallery, btnProfile;
     FirebaseUser currentUser;
     FirebaseStorage storage;
     StorageReference storageReference;
@@ -91,12 +91,14 @@ public class MainActivity extends AppCompatActivity {
         buttonLogout = findViewById(R.id.bnt_logout);
         btnTracks = findViewById(R.id.info);
         btnPicture = findViewById(R.id.picture_btn);
+        btnProfile = findViewById(R.id.profile_btn);
         textView = findViewById(R.id.user_details);
         currentUser = mAuth.getCurrentUser();
         test= findViewById(R.id.logo_pick);
         btnGallery = findViewById(R.id.gallery);
         storageReference = FirebaseStorage.getInstance().getReference();
         adContainerView = findViewById(R.id.ad_view_container);
+
 
         adContainerView
                 .getViewTreeObserver()
@@ -153,6 +155,12 @@ public class MainActivity extends AppCompatActivity {
 
         btnGallery.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), Gallery.class);
+            startActivity(intent);
+            finish();
+        });
+
+        btnProfile.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), Profile.class);
             startActivity(intent);
             finish();
         });
