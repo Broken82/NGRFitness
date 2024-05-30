@@ -30,7 +30,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class Register extends AppCompatActivity {
 
-    TextInputEditText editTextEmail, editTextPassword;
+    TextInputEditText editTextEmail, editTextPassword, editTextNick;
     Button buttonReg;
     FirebaseAuth mAuth;
 
@@ -62,6 +62,7 @@ public class Register extends AppCompatActivity {
 
         editTextEmail = findViewById(R.id.email);
         editTextPassword = findViewById(R.id.password);
+        editTextNick = findViewById(R.id.nickname);
         buttonReg = findViewById(R.id.btn_register);
         mAuth = FirebaseAuth.getInstance();
         progressBar = findViewById(R.id.progressBar);
@@ -77,9 +78,10 @@ public class Register extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
-                String email, password;
+                String email, password, nickname;
                 email = String.valueOf(editTextEmail.getText());
                 password = String.valueOf(editTextPassword.getText());
+                nickname = String.valueOf(editTextNick.getText());
 
 
                 if(TextUtils.isEmpty(email)){
@@ -105,7 +107,7 @@ public class Register extends AppCompatActivity {
 
                                     if (user != null) {
                                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                                .setDisplayName("USER")
+                                                .setDisplayName(nickname)
                                                 .setPhotoUri(Uri.parse("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5Flyp08L_jlfA0D5Dydp8N74NTwByOZtKbw&s"))
                                                 .build();
 

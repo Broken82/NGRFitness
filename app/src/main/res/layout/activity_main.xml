@@ -15,32 +15,21 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        app:layout_constraintBottom_toTopOf="@+id/user_details"
-        app:layout_constraintTop_toBottomOf="@+id/picture_btn"
+        app:layout_constraintTop_toBottomOf="@+id/bnt_logout"
         app:layout_constraintVertical_bias="1.0"
-        tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="0dp" />
 
     <Button
         android:id="@+id/bnt_logout"
         android:layout_width="101dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginTop="603dp"
         android:autoText="false"
         android:text="Wyloguj"
-        app:layout_constraintBottom_toTopOf="@+id/user_details"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/user_details"
-        android:layout_width="379dp"
-        android:layout_height="31dp"
-        android:text="TextView"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
@@ -65,8 +54,6 @@
     </androidx.cardview.widget.CardView>
 
 
-
-
     <Button
         android:id="@+id/info"
         android:layout_width="wrap_content"
@@ -81,6 +68,8 @@
         android:id="@+id/gallery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
         android:text="Galeria"
         app:layout_constraintBottom_toTopOf="@+id/picture_btn"
         app:layout_constraintEnd_toEndOf="parent"
@@ -91,9 +80,10 @@
         android:id="@+id/picture_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
+
+        android:layout_marginBottom="140dp"
         android:text="Zrób Zdjęcie"
-        app:layout_constraintBottom_toTopOf="@+id/bnt_logout"
+        app:layout_constraintBottom_toBottomOf="@+id/bnt_logout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -101,9 +91,10 @@
         android:id="@+id/profile_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="120dp"
+        android:layout_marginTop="25dp"
         android:text="@string/profil"
-        app:layout_constraintBottom_toTopOf="@+id/bnt_logout"
+        app:layout_constraintTop_toBottomOf="@id/picture_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

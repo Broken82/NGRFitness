@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
         btnTracks = findViewById(R.id.info);
         btnPicture = findViewById(R.id.picture_btn);
         btnProfile = findViewById(R.id.profile_btn);
-        textView = findViewById(R.id.user_details);
         currentUser = mAuth.getCurrentUser();
         test= findViewById(R.id.logo_pick);
         btnGallery = findViewById(R.id.gallery);
@@ -128,15 +127,7 @@ public class MainActivity extends AppCompatActivity {
             },100);
         }
 
-        if(currentUser == null){
-            Intent intent = new Intent(getApplicationContext(), Login.class);
-            startActivity(intent);
-            finish();
-        }
-        else {
-            textView.setText(currentUser.getEmail());
 
-        }
 
         buttonLogout.setOnClickListener(v -> {
             mAuth.signOut();

@@ -1,6 +1,9 @@
 package com.example.ngrfitness;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -18,9 +21,12 @@ public class Profile extends AppCompatActivity {
 
     TextView stepsValue;
     TextView emailValue;
+    TextView nameValue;
 
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
+    Button btnBack;
+    ImageView avatar;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,13 +44,20 @@ public class Profile extends AppCompatActivity {
         emailValue = findViewById(R.id.emailprawo);
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
+        btnBack = findViewById(R.id.back_btn);
+        avatar = findViewById(R.id.profile_picture);
+        nameValue = findViewById(R.id.name);
 
         if(currentUser != null){
             emailValue.setText(currentUser.getEmail());
+            nameValue.setText(currentUser.getDisplayName());
         }
 
-
-
+        btnBack.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
 
 
     }
