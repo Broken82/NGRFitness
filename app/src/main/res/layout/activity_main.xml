@@ -58,7 +58,7 @@
         android:id="@+id/info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="20dp"
         android:text="Informacje"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,8 +68,8 @@
         android:id="@+id/gallery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="25dp"
+
+
         android:text="Galeria"
         app:layout_constraintBottom_toTopOf="@+id/picture_btn"
         app:layout_constraintEnd_toEndOf="parent"
@@ -81,7 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginBottom="140dp"
+        android:layout_marginBottom="280dp"
         android:text="Zrób Zdjęcie"
         app:layout_constraintBottom_toBottomOf="@+id/bnt_logout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -92,9 +92,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="120dp"
-        android:layout_marginTop="25dp"
+
         android:text="@string/profil"
         app:layout_constraintTop_toBottomOf="@id/picture_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+    <Button
+        android:id="@+id/step_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="120dp"
+
+        android:text="@string/kroki"
+        app:layout_constraintTop_toBottomOf="@id/profile_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

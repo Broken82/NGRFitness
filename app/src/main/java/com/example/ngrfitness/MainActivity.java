@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     ImageView test;
     TextView textView;
-    Button btnTracks,buttonLogout,btnPicture,btnGallery, btnProfile;
+    Button btnTracks,buttonLogout,btnPicture,btnGallery, btnProfile, btnSteps;
     FirebaseUser currentUser;
     FirebaseStorage storage;
     StorageReference storageReference;
@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         btnTracks = findViewById(R.id.info);
         btnPicture = findViewById(R.id.picture_btn);
         btnProfile = findViewById(R.id.profile_btn);
+        btnSteps = findViewById(R.id.step_btn);
         currentUser = mAuth.getCurrentUser();
         test= findViewById(R.id.logo_pick);
         btnGallery = findViewById(R.id.gallery);
@@ -156,10 +157,16 @@ public class MainActivity extends AppCompatActivity {
             finish();
         });
 
+        btnSteps.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), Steps.class);
+            startActivity(intent);
+            finish();
+        });
+
     }
 
     private AdSize getAdSize() {
-        // Determine the screen width (less decorations) to use for the ad width.
+
         Display display = getWindowManager().getDefaultDisplay();
         DisplayMetrics outMetrics = new DisplayMetrics();
         display.getMetrics(outMetrics);
@@ -168,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
         float adWidthPixels = adContainerView.getWidth();
 
-        // If the ad hasn't been laid out, default to the full screen width.
+
         if (adWidthPixels == 0) {
             adWidthPixels = outMetrics.widthPixels;
         }
