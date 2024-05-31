@@ -76,8 +76,10 @@ public class Steps extends AppCompatActivity implements SensorEventListener {
     public void onSensorChanged(SensorEvent event) {
 
         if(event.sensor.getType() == Sensor.TYPE_STEP_COUNTER){
-            stepCount = (long) event.values[0];
-            stepsTaken.setText((int) stepCount);
+            if(!isPaused) {
+                stepCount = (long) event.values[0];
+                stepsTaken.setText((int) stepCount);
+            }
         }
 
     }
