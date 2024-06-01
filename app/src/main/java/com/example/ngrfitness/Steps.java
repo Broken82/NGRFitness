@@ -6,6 +6,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,31 +19,34 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class Steps extends AppCompatActivity implements SensorEventListener {
 
+    private static final String TAG = "Steps";
+
     SensorManager sensorManager;
-    Sensor stepCountSensor;
+    Sensor accelerometer;
     TextView stepsTaken;
     Button pauseButton;
 
-
-    private long stepCount;
-    private boolean isPaused = false;
+    private boolean isRunning = true;
+    private long stepCount = 0;
+    private float[] lastAccelerometer = new float[3];
+    private float[] currentAccelerometer = new float[3];
+    private float[] accelerometerDelta = new float[3];
+    private boolean firstUpdate = true;
+    private static final float SHAKE_THRESHOLD = 1.5f; //mozna zmienic
 
     @Override
     protected void onStop() {
-
         super.onStop();
-        if(stepCountSensor != null){
+        if (accelerometer != null) {
             sensorManager.unregisterListener(this);
         }
     }
 
-
     @Override
     protected void onResume() {
-
         super.onResume();
-        if(stepCountSensor != null){
-            sensorManager.registerListener(this, stepCountSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        if (accelerometer != null) {
+            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         }
     }
 
@@ -58,46 +62,71 @@ public class Steps extends AppCompatActivity implements SensorEventListener {
         });
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        stepCountSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
         stepsTaken = findViewById(R.id.stepstaken);
         pauseButton = findViewById(R.id.btn_pause);
 
-        if(stepCountSensor == null){
-            stepsTaken.setText("Urządzenie nie obsługiwane");
-
+        if (accelerometer == null) {
+            stepsTaken.setText("Urządzenie nie obsługuje akcelerometru.");
+            Log.d(TAG, "Sensor akcelerometru nie jest dostępny.");
+        } else {
+            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+            Log.d(TAG, "Sensor akcelerometru zarejestrowany.");
         }
 
-
+        pauseButton.setOnClickListener(this::onPausedButtonClicked);
     }
-
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-
-        if(event.sensor.getType() == Sensor.TYPE_STEP_COUNTER){
-            if(!isPaused) {
-                stepCount = (long) event.values[0];
-                stepsTaken.setText((int) stepCount);
+        if (isRunning && event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            updateAccelerometer(event.values);
+            if (isStepDetected()) {
+                stepCount++;
+                stepsTaken.setText(String.valueOf(stepCount));
+                Log.d(TAG, "Kroki: " + stepCount);
             }
         }
-
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
 
+    private void updateAccelerometer(float[] values) {
+        System.arraycopy(currentAccelerometer, 0, lastAccelerometer, 0, currentAccelerometer.length);
+        System.arraycopy(values, 0, currentAccelerometer, 0, values.length);
+        if (firstUpdate) {
+            firstUpdate = false;
+            System.arraycopy(currentAccelerometer, 0, lastAccelerometer, 0, currentAccelerometer.length);
+        }
+
+        for (int i = 0; i < 3; i++) {
+            accelerometerDelta[i] = Math.abs(lastAccelerometer[i] - currentAccelerometer[i]);
+        }
     }
 
-    public void onPausedButtonClicked(View view){
-        if(isPaused){
-            isPaused = false;
-            pauseButton.setText("Pauza");
+    private boolean isStepDetected() {
+        float delta = (float) Math.sqrt(
+                accelerometerDelta[0] * accelerometerDelta[0] +
+                        accelerometerDelta[1] * accelerometerDelta[1] +
+                        accelerometerDelta[2] * accelerometerDelta[2]
+        );
 
-        }
-        else {
-            isPaused = true;
+        return delta > SHAKE_THRESHOLD;
+    }
+
+    public void onPausedButtonClicked(View view) {
+        if (isRunning) {
+            isRunning = false;
             pauseButton.setText("Start");
+            sensorManager.unregisterListener(this, accelerometer);
+            Log.d(TAG, "Sensor akcelerometru zatrzymany.");
+        } else {
+            isRunning = true;
+            pauseButton.setText("Pauza");
+            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+            Log.d(TAG, "Sensor akcelerometru wznowiony.");
         }
     }
 }
