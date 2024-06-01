@@ -12,8 +12,8 @@ public class StepCount {
 
 
     @ColumnInfo(name = "steps")
-    long steps;
+    public long steps;
 
     @ColumnInfo(name = "created_at")
-    String createdAt;
+    public String createdAt;
 }
