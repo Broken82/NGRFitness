@@ -1,5 +1,7 @@
 package com.example.ngrfitness;
 
+import static android.icu.number.NumberFormatter.with;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -19,6 +21,8 @@ import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -45,7 +49,7 @@ public class Steps extends AppCompatActivity implements SensorEventListener {
     protected void onStop() {
 
         super.onStop();
-        if(stepCountSensor != null){
+        if (stepCountSensor != null) {
             StepCount stepCounts = new StepCount();
             stepCounts.steps = this.stepCount;
             stepCounts.createdAt = String.valueOf(System.currentTimeMillis());
@@ -64,8 +68,9 @@ public class Steps extends AppCompatActivity implements SensorEventListener {
     protected void onResume() {
 
         super.onResume();
-        if(stepCountSensor != null){
+        if (stepCountSensor != null) {
             sensorManager.registerListener(this, stepCountSensor, SensorManager.SENSOR_DELAY_NORMAL);
+            CreateNotification();
         }
     }
 
@@ -104,18 +109,16 @@ public class Steps extends AppCompatActivity implements SensorEventListener {
                 1);
 
 
-
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         stepCountSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
 
         stepsTaken = findViewById(R.id.stepstaken);
         pauseButton = findViewById(R.id.btn_pause);
 
-        if(stepCountSensor == null){
+        if (stepCountSensor == null) {
             stepsTaken.setText("Urządzenie nie obsługiwane");
 
-        }
-        else{
+        } else {
             isPaused = false;
             onResume();
             pauseButton.setText("Pauza");
@@ -126,8 +129,8 @@ public class Steps extends AppCompatActivity implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent event) {
 
-        if(event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR){
-            if(!isPaused) {
+        if (event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
+            if (!isPaused) {
                 stepCount++;
                 stepsTaken.setText(String.valueOf(stepCount));
             }
@@ -141,17 +144,40 @@ public class Steps extends AppCompatActivity implements SensorEventListener {
     }
 
 
-    public void onPausedButtonClicked(View view){
-        if(isPaused){
+    public void onPausedButtonClicked(View view) {
+        if (isPaused) {
             isPaused = false;
             onResume();
             pauseButton.setText("Pauza");
 
-        }
-        else {
+        } else {
             isPaused = true;
             onStop();
             pauseButton.setText("Start");
         }
     }
-}
+
+    public void CreateNotification() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "notifyNGRFitness")
+                .setContentText("bla")
+                .setContentTitle("ngr")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.POST_NOTIFICATIONS},
+                    2);
+            return;
+        }
+
+
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        NotificationManagerCompat.from(this).notify(1, builder.build());
+
+        }
+
+
+    }

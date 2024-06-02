@@ -1,10 +1,13 @@
 package com.example.ngrfitness;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.Image;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
@@ -86,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
+        createNotificationChannel();
 
         mAuth = FirebaseAuth.getInstance();
         buttonLogout = findViewById(R.id.bnt_logout);
@@ -182,6 +187,19 @@ public class MainActivity extends AppCompatActivity {
 
         int adWidth = (int) (adWidthPixels / density);
         return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adWidth);
+    }
+
+    public void createNotificationChannel() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            CharSequence name= "NGRFitnessReminderChannel";
+            String description = "Channel for NGRFitness Reminder";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("notifyNGRFitness",name,importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+
+        }
     }
 
 
