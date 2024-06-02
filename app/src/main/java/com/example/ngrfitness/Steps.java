@@ -60,6 +60,7 @@ public class Steps extends AppCompatActivity implements SensorEventListener {
 
             stepsTaken.setText("0");
             Toast.makeText(this, "Zapisano kroki", Toast.LENGTH_SHORT).show();
+            NotificationManagerCompat.from(this).cancelAll();
         }
     }
 
@@ -70,7 +71,7 @@ public class Steps extends AppCompatActivity implements SensorEventListener {
         super.onResume();
         if (stepCountSensor != null) {
             sensorManager.registerListener(this, stepCountSensor, SensorManager.SENSOR_DELAY_NORMAL);
-            CreateNotification();
+            CreateNotification("Musisz przejść 10 kroków!", "NGR Fitness: Chódź!", 1);
         }
     }
 
@@ -133,6 +134,12 @@ public class Steps extends AppCompatActivity implements SensorEventListener {
             if (!isPaused) {
                 stepCount++;
                 stepsTaken.setText(String.valueOf(stepCount));
+
+                if(stepCount > 10){
+                    CreateNotification("Przeszedłeś 10 kroków!", "NGR Fitness: Gratulacje!", 2);
+                    NotificationManagerCompat.from(this).cancel(1);
+
+                }
             }
         }
 
@@ -157,10 +164,11 @@ public class Steps extends AppCompatActivity implements SensorEventListener {
         }
     }
 
-    public void CreateNotification() {
+    public void CreateNotification(String text, String title, int id) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "notifyNGRFitness")
-                .setContentText("bla")
-                .setContentTitle("ngr")
+                .setContentText(text)
+                .setContentTitle(title)
+                .setSmallIcon(R.drawable.logo)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
@@ -175,7 +183,7 @@ public class Steps extends AppCompatActivity implements SensorEventListener {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
-        NotificationManagerCompat.from(this).notify(1, builder.build());
+        NotificationManagerCompat.from(this).notify(id, builder.build());
 
         }
 
