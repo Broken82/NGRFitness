@@ -1,7 +1,9 @@
 package com.example.ngrfitness;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -14,7 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -34,7 +38,7 @@ public class Steps extends AppCompatActivity implements SensorEventListener {
     StepsDao stepsDao;
 
 
-    private long stepCount;
+    private long stepCount = 0;
     private boolean isPaused = false;
 
     @Override
@@ -76,9 +80,28 @@ public class Steps extends AppCompatActivity implements SensorEventListener {
             return insets;
         });
 
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent intent = new Intent(Steps.this, MainActivity.class);
+                startActivity(intent);
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
+
         AppDatabase db = Room.databaseBuilder(getApplicationContext(),
                 AppDatabase.class, "ngr-fitness").allowMainThreadQueries().build();
         stepsDao = db.stepsDao();
+
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+        }
+
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.ACTIVITY_RECOGNITION},
+                1);
 
 
 
@@ -93,8 +116,9 @@ public class Steps extends AppCompatActivity implements SensorEventListener {
 
         }
         else{
+            isPaused = false;
+            onResume();
             pauseButton.setText("Pauza");
-            sensorManager.registerListener(this, stepCountSensor, SensorManager.SENSOR_DELAY_NORMAL);
         }
     }
 
@@ -115,6 +139,7 @@ public class Steps extends AppCompatActivity implements SensorEventListener {
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
+
 
     public void onPausedButtonClicked(View view){
         if(isPaused){

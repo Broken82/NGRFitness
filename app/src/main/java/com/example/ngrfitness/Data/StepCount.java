@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "steps")
 public class StepCount {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int uid;
 
 
