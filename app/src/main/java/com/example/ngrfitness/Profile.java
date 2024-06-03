@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import com.example.ngrfitness.Data.AppDatabase;
@@ -31,6 +33,8 @@ public class Profile extends AppCompatActivity {
     Button btnBack;
     ImageView avatar;
     StepsDao StepsDao;
+    private ListAdapter adapter;
+    private RecyclerView listRecView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +60,11 @@ public class Profile extends AppCompatActivity {
         btnBack = findViewById(R.id.back_btn);
         avatar = findViewById(R.id.profile_picture);
         nameValue = findViewById(R.id.name);
+
+        listRecView = findViewById(R.id.listRecycle);
+        adapter = new ListAdapter(StepsDao.getAll());
+        listRecView.setAdapter(adapter);
+        listRecView.setLayoutManager(new LinearLayoutManager(this));
 
         if(currentUser != null){
             emailValue.setText(currentUser.getEmail());

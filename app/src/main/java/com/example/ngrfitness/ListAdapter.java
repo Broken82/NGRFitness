@@ -36,7 +36,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        holder.getTextView().setText((CharSequence) stepCounts.get(position));
+        holder.getTextView().setText(stepCounts.get(position).toString());
 
     }
 

@@ -17,4 +17,5 @@
     <string name="nick">Nick</string>
     <string name="kroki">Kroki</string>
     <string name="element">element:</string>
+    <string name="maks_liczba_krokow">Maks. liczba kroków:</string>
 </resources>
