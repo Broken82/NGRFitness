@@ -40,11 +40,11 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
 
 
 
-        //ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-          //  Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-           // v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-           // return insets;
-        //});
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -63,12 +63,11 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
             public void onSuccess(Location location) {
                 if(location!=null){
                     currentLocation =location;
-
+                    Toast.makeText(GoogleMaps.this, "Znaleziono lokalizację", Toast.LENGTH_SHORT).show();
                     SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
                     mapFragment.getMapAsync(GoogleMaps.this);
                 }else {
-                    //Toast.makeText(GoogleMaps.this, "Brak lokalizacji", Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(GoogleMaps.this, "Brak lokalizacji emulatora", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -80,6 +79,8 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
         myMap = googleMap;
 
         LatLng myLocation = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
+
+        //LatLng myLocation = new LatLng(-31,133);
         myMap.addMarker(new MarkerOptions().position(myLocation).title("My location"));
 
         myMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
