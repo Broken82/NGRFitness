@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     ImageView test;
     TextView textView;
-    Button btnTracks,buttonLogout,btnPicture,btnGallery, btnProfile, btnSteps;
+    Button btnTracks,buttonLogout,btnPicture,btnGallery, btnProfile, btnSteps,btnMap;
     FirebaseUser currentUser;
     FirebaseStorage storage;
     StorageReference storageReference;
@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
         btnPicture = findViewById(R.id.picture_btn);
         btnProfile = findViewById(R.id.profile_btn);
         btnSteps = findViewById(R.id.step_btn);
+        btnMap = findViewById(R.id.map_btn);
         currentUser = mAuth.getCurrentUser();
         test= findViewById(R.id.logo_pick);
         btnGallery = findViewById(R.id.gallery);
@@ -168,7 +169,14 @@ public class MainActivity extends AppCompatActivity {
             finish();
         });
 
+        btnMap.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), GoogleMaps.class);
+            startActivity(intent);
+            finish();
+        });
+
     }
+
 
     private AdSize getAdSize() {
 
@@ -217,12 +225,12 @@ public class MainActivity extends AppCompatActivity {
             Uri uri=Uri.parse(path);
             StorageReference ref = storageReference.child(currentUser.getEmail()+"/" + UUID.randomUUID().toString());
             ref.putFile(uri);
-            //StorageReference reference = storageRef.child("images/"+ UUID.randomUUID().toString());
-            //reference.putFile(uri);
+
 
 
             Toast.makeText(this, "Zrobiono zdjęcie", Toast.LENGTH_SHORT).show();
-            //Trzeba zrobić zapis do firebasa i do galerii
+
+
         }
         else{
             Toast.makeText(this, "Nie dodano zdjęcia", Toast.LENGTH_SHORT).show();

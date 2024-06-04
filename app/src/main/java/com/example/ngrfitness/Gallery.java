@@ -75,6 +75,7 @@ public class Gallery extends AppCompatActivity {
                             pictures.add(new Picture(1,imageUrl));
 
 
+
                         });
                     }
                     adapter.setPictures(pictures);
