@@ -38,6 +38,8 @@ import com.google.android.gms.tasks.Task;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -120,8 +122,21 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
 
 
         pathFinderBtn.setOnClickListener(view -> {
-            myMap.addMarker(new MarkerOptions().position(destinationLatLng).title("Test"));
-            myMap.moveCamera(CameraUpdateFactory.newLatLng(destinationLatLng));
+
+            if(destinationLatLng!=null){
+
+                myMap.addMarker(new MarkerOptions().position(destinationLatLng).title("Test"));
+                myMap.moveCamera(CameraUpdateFactory.newLatLng(destinationLatLng));
+                dest= new LatLng(destinationLatLng.latitude,destinationLatLng.longitude);
+                origion= new LatLng(myLocation.latitude,myLocation.longitude);
+
+
+                getDirection(myLocation.latitude + "," + myLocation.longitude,
+                        destinationLatLng.latitude + "," + destinationLatLng.longitude);
+                //Toast.makeText(this, destinationLatLng.latitude + "," + destinationLatLng.longitude, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, destinationLatLng.latitude + "," + destinationLatLng.longitude, Toast.LENGTH_SHORT).show();
+            }
+
         });
 
     }
@@ -138,9 +153,9 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
                     }
 
                     @Override
-                    public void onSuccess(Result resoult) {
+                    public void onSuccess(Result result) {
                         polylinelist= new ArrayList<>();
-                        List<Route> routeList=resoult.getRoutes();
+                        List<Route> routeList=result.getRoutes();
                         for (Route route:routeList){
                             String polyline= route.getOverviewPolyline().getPoints();
                             polylinelist.addAll(decodePoly(polyline));
@@ -200,10 +215,11 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
 
         myMap.addMarker(new MarkerOptions().position(myLocation).title("My location"));
 
-        //myMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
-        origion= new LatLng(30,76);
-        dest= new LatLng(28,77);
-        getDirection("30" + "," + "76","28" + "," + "77");
+
+        myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation,10));
+
+
+
 
     }
 
