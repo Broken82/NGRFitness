@@ -27,6 +27,7 @@ android {
         }
     }
     compileOptions {
+
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -52,6 +53,18 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation("androidx.room:room-runtime:2.6.1")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
+
+    implementation("com.google.android.gms:play-services-analytics:18.1.0")
+    implementation("com.squareup.retrofit2:retrofit:2.4.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.3.0")
+    implementation("com.squareup.retrofit2:adapter-rxjava2:2.4.0")
+
+    implementation("io.reactivex.rxjava2:rxandroid:2.1.0")
+    implementation("io.reactivex.rxjava2:rxjava:2.2.10")
+    implementation("com.jakewharton.rxrelay2:rxrelay:2.0.0")
+
+
+
 
 
 
