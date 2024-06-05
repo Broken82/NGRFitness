@@ -1,8 +1,11 @@
 package com.example.ngrfitness;
 
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -25,6 +28,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import java.io.IOException;
+import java.util.List;
+
 public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback {
 
     GoogleMap myMap;
@@ -32,12 +38,13 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
     Location currentLocation;
     FusedLocationProviderClient fusedLocationProviderClient;
 
+    SearchView mapSearchView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_google_maps);
-
+        mapSearchView=findViewById(R.id.mapSearch);
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -46,9 +53,39 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
             return insets;
         });
 
-
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        //SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+
+                String location = mapSearchView.getQuery().toString();
+                List<Address> addressList = null;
+                if(location != null){
+                    Geocoder geocoder =new Geocoder(GoogleMaps.this);
+                    try{
+                        addressList = geocoder.getFromLocationName(location,1);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    Address address = addressList.get(0);
+                    LatLng latLng= new LatLng(address.getLatitude(),address.getLongitude());
+                    myMap.addMarker(new MarkerOptions().position(latLng).title(location));
+                    myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
+                }
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+
         getLastLocation();
+        
     }
 
     public void getLastLocation() {
@@ -80,7 +117,7 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
 
         LatLng myLocation = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
 
-        //LatLng myLocation = new LatLng(-31,133);
+
         myMap.addMarker(new MarkerOptions().position(myLocation).title("My location"));
 
         myMap.moveCamera(CameraUpdateFactory.newLatLng(myLocation));
