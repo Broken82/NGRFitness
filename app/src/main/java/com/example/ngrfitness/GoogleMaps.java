@@ -37,7 +37,7 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
     private static final int FINE_PERMISSION_CODE = 1;
     Location currentLocation;
     FusedLocationProviderClient fusedLocationProviderClient;
-
+    LatLng destinationLatLng,myLocation;
     SearchView mapSearchView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
-        //SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        getLastLocation();
         mapSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -71,6 +71,7 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
                     }
                     Address address = addressList.get(0);
                     LatLng latLng= new LatLng(address.getLatitude(),address.getLongitude());
+                    destinationLatLng=latLng;
                     myMap.addMarker(new MarkerOptions().position(latLng).title(location));
                     myMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));
                 }
@@ -84,7 +85,7 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
             }
         });
 
-        getLastLocation();
+
         
     }
 
@@ -115,7 +116,7 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
 
         myMap = googleMap;
 
-        LatLng myLocation = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
+        myLocation = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
 
 
         myMap.addMarker(new MarkerOptions().position(myLocation).title("My location"));

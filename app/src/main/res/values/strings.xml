@@ -21,4 +21,6 @@
     <string name="my_ip_key">AIzaSyBltdy2Kuf3aZaHBe_2xz-J1rzkTOWIguY</string>
     <string name="mapa">Mapa</string>
     <string name="szukaj">Szukaj</string>
+    <string name="pokaz_trase">Pokaż trasę</string>
+    <string name="wezwij_pomoc">Wezwij pomoc</string>
 </resources>
