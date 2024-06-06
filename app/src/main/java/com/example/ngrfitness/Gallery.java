@@ -32,7 +32,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 
-public class Gallery extends AppCompatActivity {
+public class Gallery extends AppCompat {
 
 
     private RecyclerView pictureRecView;
@@ -41,7 +41,7 @@ public class Gallery extends AppCompatActivity {
     private MyAdapter adapter;
     private Button backBtn;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_gallery);
@@ -75,12 +75,13 @@ public class Gallery extends AppCompatActivity {
                             pictures.add(new Picture(1,imageUrl));
 
 
+
                         });
                     }
                     adapter.setPictures(pictures);
                 })
                 .addOnFailureListener(exception -> {
-                    Toast.makeText(this, "Nie działa ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, Gallery.this.getResources().getString(R.string.nie_dziala), Toast.LENGTH_SHORT).show();
                 });
 
         backBtn.setOnClickListener(view -> {

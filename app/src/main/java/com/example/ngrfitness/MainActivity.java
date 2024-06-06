@@ -55,7 +55,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompat {
     private final AtomicBoolean initialLayoutComplete = new AtomicBoolean(false);
     private AdView mAdView;
     private AdView adView;
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     ImageView test;
     TextView textView;
-    Button btnTracks,buttonLogout,btnPicture,btnGallery, btnProfile, btnSteps;
+    Button btnTracks,buttonLogout,btnPicture,btnGallery, btnProfile, btnSteps,btnMap,btnPL,btnENG;
     FirebaseUser currentUser;
     FirebaseStorage storage;
     StorageReference storageReference;
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
@@ -98,12 +98,14 @@ public class MainActivity extends AppCompatActivity {
         btnPicture = findViewById(R.id.picture_btn);
         btnProfile = findViewById(R.id.profile_btn);
         btnSteps = findViewById(R.id.step_btn);
+        btnMap = findViewById(R.id.map_btn);
         currentUser = mAuth.getCurrentUser();
         test= findViewById(R.id.logo_pick);
         btnGallery = findViewById(R.id.gallery);
         storageReference = FirebaseStorage.getInstance().getReference();
         adContainerView = findViewById(R.id.ad_view_container);
-
+        btnENG=findViewById(R.id.eng_btn);
+        btnPL=findViewById(R.id.pl_btn);
 
         adContainerView
                 .getViewTreeObserver()
@@ -143,7 +145,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btnTracks.setOnClickListener(view -> {
-            Toast.makeText(this, "Track Button", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, MainActivity.this.getResources().getString(R.string.przycisk_sledzenia)
+                    , Toast.LENGTH_SHORT).show();
         });
         btnPicture.setOnClickListener(view -> {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -168,7 +171,28 @@ public class MainActivity extends AppCompatActivity {
             finish();
         });
 
+        btnMap.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), GoogleMaps.class);
+            startActivity(intent);
+            finish();
+        });
+
+        LenguageManager lang = new LenguageManager(this);
+        btnPL.setOnClickListener(view -> {
+
+            lang.updateResource("pl");
+            recreate();
+        });
+
+        btnENG.setOnClickListener(view -> {
+
+            lang.updateResource("en");
+            recreate();
+        });
+
+
     }
+
 
     private AdSize getAdSize() {
 
@@ -192,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
     public void createNotificationChannel() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             CharSequence name= "NGRFitnessReminderChannel";
-            String description = "Channel for NGRFitness Reminder";
+            String description = MainActivity.this.getResources().getString(R.string.przypominacz);
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel("notifyNGRFitness",name,importance);
             channel.setDescription(description);
@@ -217,15 +241,15 @@ public class MainActivity extends AppCompatActivity {
             Uri uri=Uri.parse(path);
             StorageReference ref = storageReference.child(currentUser.getEmail()+"/" + UUID.randomUUID().toString());
             ref.putFile(uri);
-            //StorageReference reference = storageRef.child("images/"+ UUID.randomUUID().toString());
-            //reference.putFile(uri);
 
 
-            Toast.makeText(this, "Zrobiono zdjęcie", Toast.LENGTH_SHORT).show();
-            //Trzeba zrobić zapis do firebasa i do galerii
+
+            Toast.makeText(this, MainActivity.this.getResources().getString(R.string.zrobiono_zdj), Toast.LENGTH_SHORT).show();
+
+
         }
         else{
-            Toast.makeText(this, "Nie dodano zdjęcia", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, MainActivity.this.getResources().getString(R.string.zrobiono_zdj), Toast.LENGTH_SHORT).show();
             super.onActivityResult(requestCode,resultCode,data);
         }
 

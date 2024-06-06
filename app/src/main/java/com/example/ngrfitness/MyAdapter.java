@@ -25,6 +25,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public MyAdapter(Context mContext) {
 
         this.mContext = mContext;
+
     }
 
     @NonNull

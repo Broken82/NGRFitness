@@ -33,7 +33,7 @@ import com.example.ngrfitness.Data.AppDatabase;
 import com.example.ngrfitness.Data.StepCount;
 import com.example.ngrfitness.Data.StepsDao;
 
-public class Steps extends AppCompatActivity implements SensorEventListener {
+public class Steps extends AppCompat implements SensorEventListener {
 
     SensorManager sensorManager;
     Sensor stepCountSensor;
@@ -59,7 +59,7 @@ public class Steps extends AppCompatActivity implements SensorEventListener {
             stepCount = 0;
 
             stepsTaken.setText("0");
-            Toast.makeText(this, "Zapisano kroki", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, Steps.this.getResources().getString(R.string.zapisano_kroki), Toast.LENGTH_SHORT).show();
             NotificationManagerCompat.from(this).cancelAll();
         }
     }
@@ -71,12 +71,12 @@ public class Steps extends AppCompatActivity implements SensorEventListener {
         super.onResume();
         if (stepCountSensor != null) {
             sensorManager.registerListener(this, stepCountSensor, SensorManager.SENSOR_DELAY_NORMAL);
-            CreateNotification("Musisz przejść 10 kroków!", "NGR Fitness: Chódź!", 1);
+            CreateNotification(Steps.this.getResources().getString(R.string.dziasiec_krokow), Steps.this.getResources().getString(R.string.chodz), 1);
         }
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_steps);
@@ -117,12 +117,12 @@ public class Steps extends AppCompatActivity implements SensorEventListener {
         pauseButton = findViewById(R.id.btn_pause);
 
         if (stepCountSensor == null) {
-            stepsTaken.setText("Urządzenie nie obsługiwane");
+            stepsTaken.setText(Steps.this.getResources().getString(R.string.nie_obsl));
 
         } else {
             isPaused = false;
             onResume();
-            pauseButton.setText("Pauza");
+            pauseButton.setText(Steps.this.getResources().getString(R.string.pauza));
         }
     }
 
@@ -136,7 +136,8 @@ public class Steps extends AppCompatActivity implements SensorEventListener {
                 stepsTaken.setText(String.valueOf(stepCount));
 
                 if(stepCount > 10){
-                    CreateNotification("Przeszedłeś 10 kroków!", "NGR Fitness: Gratulacje!", 2);
+                    CreateNotification(Steps.this.getResources().getString(R.string.dziesiec_udalo),
+                            Steps.this.getResources().getString(R.string.gratulacje), 2);
                     NotificationManagerCompat.from(this).cancel(1);
 
                 }
@@ -155,7 +156,7 @@ public class Steps extends AppCompatActivity implements SensorEventListener {
         if (isPaused) {
             isPaused = false;
             onResume();
-            pauseButton.setText("Pauza");
+            pauseButton.setText(Steps.this.getResources().getString(R.string.pauza));
 
         } else {
             isPaused = true;
