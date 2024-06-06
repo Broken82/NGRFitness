@@ -27,7 +27,29 @@
     <string name="galeria">Galeria</string>
     <string name="zrobzdj">Zrób Zdjęcie</string>
     ///////////////////////////////////////////////
-
-
+    <string name="nie_dziala">Nie Działa</string>
+    <string name="pomoc">Pomyślnie wysłano prośbę o pomoc</string>
+    <string name="blad">Błąd</string>
+    <string name="brak_lokalizcji">Brak lokalizacji emulatora</string>
+    <string name="brak_dost_lokalizcji">Brak dostępu do lokalizacji emulatora</string>
+    <string name="brak_pozwolenia">Brak pozwolenia</string>
+    <string name="wpisz_mail">Wpisz E-mail</string>
+    <string name="wpisz_haslo">Wpisz Hasło</string>
+    <string name="logowanie_zakon">Logowanie zakończone</string>
+    <string name="logowanie_nieudane">Logowanie nieudane</string>
+    <string name="przycisk_sledzenia">Przycisk śledzenia</string>
+    <string name="przypominacz">Kanał dla przypomnień NGRFitness</string>
+    <string name="zrobiono_zdj">Zrobiono zdjęcie</string>
+    <string name="nie_zrobiono_zdj">Nie zrobiono zdjęcie</string>
+    <string name="rejestr_sukces">Rejestracja zakończona sukcesem</string>
+    <string name="rejestr_sukces_blad">Rejestracja zakończona, ale aktualizacja profilu nie powiodła się</string>
+    <string name="rejestr_blad">Rejestracja nie powiodła się</string>
+    <string name="zapisano_kroki">Zapisano kroki</string>
+    <string name="dziasiec_krokow">Musisz przejść 10 kroków!</string>
+    <string name="chodz">NGR Fitness: Chódź!</string>
+    <string name="nie_obsl">Urządzenie nie obsługiwane</string>
+    <string name="pauza">Pauza</string>
+    <string name="dziesiec_udalo">Przeszedłeś 10 kroków!</string>
+    <string name="gratulacje">NGR Fitness: Gratulacje!</string>
 
 </resources>

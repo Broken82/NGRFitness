@@ -81,7 +81,7 @@ public class Gallery extends AppCompat {
                     adapter.setPictures(pictures);
                 })
                 .addOnFailureListener(exception -> {
-                    Toast.makeText(this, "Nie działa ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, Gallery.this.getResources().getString(R.string.nie_dziala), Toast.LENGTH_SHORT).show();
                 });
 
         backBtn.setOnClickListener(view -> {

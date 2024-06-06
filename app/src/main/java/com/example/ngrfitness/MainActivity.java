@@ -145,7 +145,8 @@ public class MainActivity extends AppCompat {
         });
 
         btnTracks.setOnClickListener(view -> {
-            Toast.makeText(this, "Track Button", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, MainActivity.this.getResources().getString(R.string.przycisk_sledzenia)
+                    , Toast.LENGTH_SHORT).show();
         });
         btnPicture.setOnClickListener(view -> {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -215,7 +216,7 @@ public class MainActivity extends AppCompat {
     public void createNotificationChannel() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             CharSequence name= "NGRFitnessReminderChannel";
-            String description = "Channel for NGRFitness Reminder";
+            String description = MainActivity.this.getResources().getString(R.string.przypominacz);
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel("notifyNGRFitness",name,importance);
             channel.setDescription(description);
@@ -243,12 +244,12 @@ public class MainActivity extends AppCompat {
 
 
 
-            Toast.makeText(this, "Zrobiono zdjęcie", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, MainActivity.this.getResources().getString(R.string.zrobiono_zdj), Toast.LENGTH_SHORT).show();
 
 
         }
         else{
-            Toast.makeText(this, "Nie dodano zdjęcia", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, MainActivity.this.getResources().getString(R.string.zrobiono_zdj), Toast.LENGTH_SHORT).show();
             super.onActivityResult(requestCode,resultCode,data);
         }
 

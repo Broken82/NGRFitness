@@ -85,12 +85,12 @@ public class Register extends AppCompat {
 
 
                 if(TextUtils.isEmpty(email)){
-                    Toast.makeText(Register.this, "Wpisz E-mail", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Register.this, Register.this.getResources().getString(R.string.wpisz_mail), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if(TextUtils.isEmpty(password)){
-                    Toast.makeText(Register.this, "Wpisz hasło", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Register.this, Register.this.getResources().getString(R.string.wpisz_haslo), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -116,20 +116,20 @@ public class Register extends AppCompat {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         if (task.isSuccessful()) {
-                                                            Toast.makeText(Register.this, "Rejestracja zakończona sukcesem",
+                                                            Toast.makeText(Register.this, Register.this.getResources().getString(R.string.rejestr_sukces),
                                                                     Toast.LENGTH_SHORT).show();
                                                             Intent intent = new Intent(getApplicationContext(), Login.class);
                                                             startActivity(intent);
                                                             finish();
                                                         } else {
-                                                            Toast.makeText(Register.this, "Rejestracja zakończona, ale aktualizacja profilu nie powiodła się.",
+                                                            Toast.makeText(Register.this, Register.this.getResources().getString(R.string.rejestr_sukces_blad),
                                                                     Toast.LENGTH_SHORT).show();
                                                         }
                                                     }
                                                 });
                                     }
                                 } else {
-                                    Toast.makeText(Register.this, "Rejestracja nie powiodła się",
+                                    Toast.makeText(Register.this, Register.this.getResources().getString(R.string.rejestr_blad),
                                             Toast.LENGTH_SHORT).show();
                                 }
                             }

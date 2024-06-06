@@ -136,7 +136,7 @@ public class GoogleMaps extends AppCompat implements OnMapReadyCallback {
                 getDirection(myLocation.latitude + "," + myLocation.longitude,
                         destinationLatLng.latitude + "," + destinationLatLng.longitude);
                 //Toast.makeText(this, destinationLatLng.latitude + "," + destinationLatLng.longitude, Toast.LENGTH_LONG).show();
-                Toast.makeText(this, destinationLatLng.latitude + "," + destinationLatLng.longitude, Toast.LENGTH_SHORT).show();
+
             }
 
         });
@@ -161,7 +161,7 @@ public class GoogleMaps extends AppCompat implements OnMapReadyCallback {
 
         SmsManager smsManager = SmsManager.getDefault();
         smsManager.sendTextMessage(phone,null,message,null,null);
-        Toast.makeText(this, "Pomyślnie wysłano prośbę o pomoc", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, GoogleMaps.this.getResources().getString(R.string.pomoc), Toast.LENGTH_SHORT).show();
     }
 
     private void getDirection(String origin, String destination){
@@ -200,7 +200,7 @@ public class GoogleMaps extends AppCompat implements OnMapReadyCallback {
 
                     @Override
                     public void onError(Throwable e) {
-                        Toast.makeText(GoogleMaps.this, "Error", Toast.LENGTH_LONG).show();
+                        Toast.makeText(GoogleMaps.this, GoogleMaps.this.getResources().getString(R.string.blad), Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -221,7 +221,7 @@ public class GoogleMaps extends AppCompat implements OnMapReadyCallback {
                     SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
                     mapFragment.getMapAsync(GoogleMaps.this);
                 }else {
-                    Toast.makeText(GoogleMaps.this, "Brak lokalizacji emulatora", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GoogleMaps.this, GoogleMaps.this.getResources().getString(R.string.brak_lokalizcji), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -289,7 +289,8 @@ public class GoogleMaps extends AppCompat implements OnMapReadyCallback {
 
             }
             else{
-                    Toast.makeText(this,"Brak dostępu do lokalizacji",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,GoogleMaps.this.getResources().getString(R.string.brak_dost_lokalizcji)
+                            ,Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -299,7 +300,8 @@ public class GoogleMaps extends AppCompat implements OnMapReadyCallback {
 
             }
             else{
-                Toast.makeText(this,"Brak pozwolenia",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,GoogleMaps.this.getResources().getString(R.string.brak_pozwolenia)
+                        ,Toast.LENGTH_SHORT).show();
             }
         }
 

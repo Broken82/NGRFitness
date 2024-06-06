@@ -27,4 +27,31 @@
     <string name="informacje">Informations</string>
     <string name="galeria">Galllery</string>
     <string name="zrobzdj">Take picture</string>
+
+
+
+    <string name="nie_dziala">Doesn\'t Work</string>
+    <string name="pomoc">Successfully sent a request for help</string>
+    <string name="blad">Error</string>
+    <string name="brak_lokalizcji">No emulator localization</string>
+    <string name="brak_dost_lokalizcji">No access to emulator location</string>
+    <string name="brak_pozwolenia">No permission</string>
+    <string name="wpisz_mail">Enter Email</string>
+    <string name="wpisz_haslo">Enter Password</string>
+    <string name="logowanie_zakon">Login completed</string>
+    <string name="logowanie_nieudane">Login failed</string>
+    <string name="przycisk_sledzenia">Tracking button</string>
+    <string name="przypominacz">NGRFitness reminder channel</string>
+    <string name="zrobiono_zdj">A picture was taken</string>
+    <string name="nie_zrobiono_zdj">No picture was taken</string>
+    <string name="rejestr_sukces">Registration successfully completed</string>
+    <string name="rejestr_sukces_blad">Registration completed, but profile update failed</string>
+    <string name="rejestr_blad">Registration failed</string>
+    <string name="zapisano_kroki">Steps saved</string>
+    <string name="dziasiec_krokow">You need to go through 10 steps!</string>
+    <string name="chodz">NGR Fitness: Go!</string>
+    <string name="nie_obsl">Device not supported</string>
+    <string name="pauza">Pause</string>
+    <string name="dziesiec_udalo">You have gone through 10 steps!</string>
+    <string name="gratulacje">NGR Fitness: Congrats!</string>
 </resources>

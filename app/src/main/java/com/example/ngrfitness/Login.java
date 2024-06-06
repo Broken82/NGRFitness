@@ -76,12 +76,12 @@ public class Login extends AppCompat {
             password = String.valueOf(editTextPassword.getText());
 
             if(TextUtils.isEmpty(email)){
-                Toast.makeText(Login.this, "Wpisz E-mail", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Login.this, Login.this.getResources().getString(R.string.wpisz_mail), Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if(TextUtils.isEmpty(password)){
-                Toast.makeText(Login.this, "Wpisz hasło", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Login.this, Login.this.getResources().getString(R.string.wpisz_haslo), Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -92,13 +92,13 @@ public class Login extends AppCompat {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             progressBar.setVisibility(View.GONE);
                             if (task.isSuccessful()) {
-                                Toast.makeText(Login.this, "Logowanie zakończone",
+                                Toast.makeText(Login.this, Login.this.getResources().getString(R.string.logowanie_zakon),
                                         Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(intent);
                                 finish();
                             } else {
-                                Toast.makeText(Login.this, "Logowanie nieudane",
+                                Toast.makeText(Login.this, Login.this.getResources().getString(R.string.logowanie_nieudane),
                                         Toast.LENGTH_SHORT).show();
                             }
                         }
