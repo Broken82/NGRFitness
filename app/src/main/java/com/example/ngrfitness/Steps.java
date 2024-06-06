@@ -33,7 +33,7 @@ import com.example.ngrfitness.Data.AppDatabase;
 import com.example.ngrfitness.Data.StepCount;
 import com.example.ngrfitness.Data.StepsDao;
 
-public class Steps extends AppCompatActivity implements SensorEventListener {
+public class Steps extends AppCompat implements SensorEventListener {
 
     SensorManager sensorManager;
     Sensor stepCountSensor;
@@ -76,7 +76,7 @@ public class Steps extends AppCompatActivity implements SensorEventListener {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_steps);

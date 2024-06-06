@@ -28,7 +28,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
-public class Register extends AppCompatActivity {
+public class Register extends AppCompat {
 
     TextInputEditText editTextEmail, editTextPassword, editTextNick;
     Button buttonReg;
@@ -50,7 +50,7 @@ public class Register extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_register);

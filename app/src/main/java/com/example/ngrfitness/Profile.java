@@ -21,7 +21,7 @@ import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class Profile extends AppCompatActivity {
+public class Profile extends AppCompat {
 
 
     TextView stepsValue;
@@ -36,7 +36,7 @@ public class Profile extends AppCompatActivity {
     private ListAdapter adapter;
     private RecyclerView listRecView;
 
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_profile);

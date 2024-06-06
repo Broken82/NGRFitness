@@ -56,7 +56,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback {
+public class GoogleMaps extends AppCompat implements OnMapReadyCallback {
     GoogleMap myMap;
     private static final int FINE_PERMISSION_CODE = 1;
     private static final int FINE_PERMISSION_CODE2 = 2;
@@ -70,7 +70,7 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
     private PolylineOptions polylineOptions;
     private LatLng origion,dest;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_google_maps);

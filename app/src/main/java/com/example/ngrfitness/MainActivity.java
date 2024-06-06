@@ -55,7 +55,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompat {
     private final AtomicBoolean initialLayoutComplete = new AtomicBoolean(false);
     private AdView mAdView;
     private AdView adView;
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);

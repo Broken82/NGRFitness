@@ -32,7 +32,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 
-public class Gallery extends AppCompatActivity {
+public class Gallery extends AppCompat {
 
 
     private RecyclerView pictureRecView;
@@ -41,7 +41,7 @@ public class Gallery extends AppCompatActivity {
     private MyAdapter adapter;
     private Button backBtn;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_gallery);
