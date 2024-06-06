@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:paddingLeft="100dp"
-        android:text="@string/element"/>
+        android:text="@string/element"
+        android:textColor="?android:textColorPrimary"/>
 
 </FrameLayout>

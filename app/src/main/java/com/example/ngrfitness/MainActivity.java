@@ -2,7 +2,10 @@ package com.example.ngrfitness;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.UiModeManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.media.Image;
@@ -11,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -28,6 +32,7 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
@@ -60,14 +65,19 @@ public class MainActivity extends AppCompat {
     private AdView mAdView;
     private AdView adView;
     private FrameLayout adContainerView;
+    private UiModeManager uiModeManager;
+    private boolean isNightMode;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
     FirebaseAuth mAuth;
     ImageView test;
     TextView textView;
-    Button btnTracks,buttonLogout,btnPicture,btnGallery, btnProfile, btnSteps,btnMap,btnPL,btnENG;
+    Button btnTheme,buttonLogout,btnPicture,btnGallery, btnProfile, btnSteps,btnMap,btnPL,btnENG;
     FirebaseUser currentUser;
     FirebaseStorage storage;
     StorageReference storageReference;
     Uri image;
+
 
 
     @Override
@@ -94,7 +104,7 @@ public class MainActivity extends AppCompat {
 
         mAuth = FirebaseAuth.getInstance();
         buttonLogout = findViewById(R.id.bnt_logout);
-        btnTracks = findViewById(R.id.info);
+        btnTheme = findViewById(R.id.theme);
         btnPicture = findViewById(R.id.picture_btn);
         btnProfile = findViewById(R.id.profile_btn);
         btnSteps = findViewById(R.id.step_btn);
@@ -106,6 +116,14 @@ public class MainActivity extends AppCompat {
         adContainerView = findViewById(R.id.ad_view_container);
         btnENG=findViewById(R.id.eng_btn);
         btnPL=findViewById(R.id.pl_btn);
+        sharedPreferences = getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        isNightMode = sharedPreferences.getBoolean("nightMode", false);
+
+        if(isNightMode){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+
+        }
 
         adContainerView
                 .getViewTreeObserver()
@@ -144,10 +162,21 @@ public class MainActivity extends AppCompat {
             finish();
         });
 
-        btnTracks.setOnClickListener(view -> {
-            Toast.makeText(this, MainActivity.this.getResources().getString(R.string.przycisk_sledzenia)
-                    , Toast.LENGTH_SHORT).show();
+        btnTheme.setOnClickListener(view -> {
+            if(isNightMode){
+                Log.d("ThemeSwitch", "Switching to Day Mode");
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                editor.putBoolean("nightMode", false);
+            }
+            else {
+                Log.d("ThemeSwitch", "Switching to Night Mode");
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                editor.putBoolean("nightMode", true);
+            }
+            editor.apply();
+
         });
+
         btnPicture.setOnClickListener(view -> {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(intent,100);
@@ -189,9 +218,9 @@ public class MainActivity extends AppCompat {
             lang.updateResource("en");
             recreate();
         });
-
-
     }
+
+
 
 
     private AdSize getAdSize() {

@@ -7,7 +7,9 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:theme="@style/Theme.Material3.DayNight"
+    >
 
     <FrameLayout
         android:id="@+id/ad_view_container"
@@ -30,7 +32,9 @@
         android:text="@string/wyloguj"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+
+        />
 
 
     <androidx.cardview.widget.CardView
@@ -57,14 +61,15 @@
 
 
     <Button
-        android:id="@+id/info"
+        android:id="@+id/theme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:text="@string/informacje"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        />
 
     <Button
         android:id="@+id/gallery"
@@ -72,16 +77,18 @@
         android:layout_height="wrap_content"
 
 
+
         android:text="@string/galeria"
         app:layout_constraintBottom_toTopOf="@+id/picture_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/info" />
+         />
 
     <Button
         android:id="@+id/picture_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
 
         android:layout_marginBottom="292dp"
         android:text="@string/zrobzdj"
@@ -96,6 +103,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="120dp"
 
+
         android:text="@string/profil"
         app:layout_constraintTop_toBottomOf="@id/picture_btn"
         app:layout_constraintEnd_toEndOf="parent"
@@ -105,6 +113,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="120dp"
+
 
         android:text="@string/kroki"
         app:layout_constraintTop_toBottomOf="@id/profile_btn"
@@ -118,7 +127,9 @@
         android:text="@string/mapa"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/step_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/step_btn"
+
+        />
 
     <Button
         android:id="@+id/pl_btn"
@@ -130,7 +141,8 @@
         app:layout_constraintBottom_toTopOf="@+id/bnt_logout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eng_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/eng_btn"
+        />
 
     <Button
         android:id="@+id/eng_btn"
@@ -139,6 +151,7 @@
         android:text="ENG"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/map_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/map_btn"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
 

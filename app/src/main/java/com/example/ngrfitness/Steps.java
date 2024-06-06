@@ -38,7 +38,7 @@ public class Steps extends AppCompat implements SensorEventListener {
     SensorManager sensorManager;
     Sensor stepCountSensor;
     TextView stepsTaken;
-    Button pauseButton;
+    Button pauseButton, backBtn;
     StepsDao stepsDao;
 
 
@@ -116,6 +116,8 @@ public class Steps extends AppCompat implements SensorEventListener {
         stepsTaken = findViewById(R.id.stepstaken);
         pauseButton = findViewById(R.id.btn_pause);
 
+        backBtn = findViewById(R.id.btn_back);
+
         if (stepCountSensor == null) {
             stepsTaken.setText(Steps.this.getResources().getString(R.string.nie_obsl));
 
@@ -124,6 +126,13 @@ public class Steps extends AppCompat implements SensorEventListener {
             onResume();
             pauseButton.setText(Steps.this.getResources().getString(R.string.pauza));
         }
+
+        backBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
     }
 
 
@@ -145,6 +154,7 @@ public class Steps extends AppCompat implements SensorEventListener {
         }
 
     }
+
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
