@@ -18,7 +18,8 @@
         android:gravity="center"
         android:layout_margin="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="?android:textColorPrimary"/>
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -34,11 +35,24 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/password"
-            android:hint="@string/haslo"
+            android:id="@+id/nickname"
+            android:hint="@string/nick"
+            android:textColor="?android:textColorPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/password"
+            android:hint="@string/haslo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?android:textColorPrimary"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -60,6 +74,7 @@
         android:id="@+id/loginNow"
         android:text="@string/kliknij_tutaj_aby_sie_zalogowac"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="?android:textColorPrimary"/>
 
 </LinearLayout>

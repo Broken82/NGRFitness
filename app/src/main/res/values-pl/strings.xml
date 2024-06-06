@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NGRFitness</string>
     <string name="login">Login</string>
@@ -26,7 +27,6 @@
     <string name="informacje">Motyw</string>
     <string name="galeria">Galeria</string>
     <string name="zrobzdj">Zrób Zdjęcie</string>
-    ///////////////////////////////////////////////
     <string name="nie_dziala">Nie Działa</string>
     <string name="pomoc">Pomyślnie wysłano prośbę o pomoc</string>
     <string name="blad">Błąd</string>
@@ -51,5 +51,4 @@
     <string name="pauza">Pauza</string>
     <string name="dziesiec_udalo">Przeszedłeś 10 kroków!</string>
     <string name="gratulacje">NGR Fitness: Gratulacje!</string>
-
 </resources>
