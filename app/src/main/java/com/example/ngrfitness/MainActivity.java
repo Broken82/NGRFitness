@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     ImageView test;
     TextView textView;
-    Button btnTracks,buttonLogout,btnPicture,btnGallery, btnProfile, btnSteps,btnMap;
+    Button btnTracks,buttonLogout,btnPicture,btnGallery, btnProfile, btnSteps,btnMap,btnPL,btnENG;
     FirebaseUser currentUser;
     FirebaseStorage storage;
     StorageReference storageReference;
@@ -104,7 +104,8 @@ public class MainActivity extends AppCompatActivity {
         btnGallery = findViewById(R.id.gallery);
         storageReference = FirebaseStorage.getInstance().getReference();
         adContainerView = findViewById(R.id.ad_view_container);
-
+        btnENG=findViewById(R.id.eng_btn);
+        btnPL=findViewById(R.id.pl_btn);
 
         adContainerView
                 .getViewTreeObserver()
@@ -174,6 +175,20 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+
+        LenguageManager lang = new LenguageManager(this);
+        btnPL.setOnClickListener(view -> {
+
+            lang.updateResource("pl");
+            recreate();
+        });
+
+        btnENG.setOnClickListener(view -> {
+
+            lang.updateResource("en");
+            recreate();
+        });
+
 
     }
 

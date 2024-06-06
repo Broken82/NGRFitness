@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NGRFitness</string>
     <string name="login">Login</string>
@@ -26,8 +27,4 @@
     <string name="informacje">Informacje</string>
     <string name="galeria">Galeria</string>
     <string name="zrobzdj">Zrób Zdjęcie</string>
-    ///////////////////////////////////////////////
-
-
-
 </resources>

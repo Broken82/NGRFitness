@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NGRFitness</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="rejestracja">Register</string>
+    <string name="haslo">Password</string>
+    <string name="kliknij_tutaj_aby_sie_zalogowac">Click here to log in</string>
+    <string name="kliknij_tutaj_aby_sie_zarejestrowac">Click here to register</string>
+    <string name="wyloguj">Log out</string>
+    <string name="nickname">Nickname</string>
+    <string name="powrot">Back</string>
+    <string name="liczba_krokow">Number of steps:</string>
+    <string name="email2">Email:</string>
+    <string name="profil">Profile</string>
+    <string name="nick">Nick</string>
+    <string name="kroki">Steps</string>
+    <string name="element">element:</string>
+    <string name="maks_liczba_krokow">Max. number of steps:</string>
+    <string name="my_ip_key">AIzaSyBltdy2Kuf3aZaHBe_2xz-J1rzkTOWIguY</string>
+    <string name="mapa">Map</string>
+    <string name="szukaj">Search</string>
+    <string name="pokaz_trase">Show Route</string>
+    <string name="wezwij_pomoc">Call help</string>
+    <string name="informacje">Informations</string>
+    <string name="galeria">Galllery</string>
+    <string name="zrobzdj">Take picture</string>
+</resources>

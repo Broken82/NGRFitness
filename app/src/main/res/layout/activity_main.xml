@@ -27,7 +27,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="603dp"
         android:autoText="false"
-        android:text="Wyloguj"
+        android:text="@string/wyloguj"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -60,8 +60,8 @@
         android:id="@+id/info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Informacje"
+        android:layout_marginTop="12dp"
+        android:text="@string/informacje"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
@@ -72,7 +72,7 @@
         android:layout_height="wrap_content"
 
 
-        android:text="Galeria"
+        android:text="@string/galeria"
         app:layout_constraintBottom_toTopOf="@+id/picture_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -83,10 +83,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginBottom="280dp"
-        android:text="Zrób Zdjęcie"
+        android:layout_marginBottom="292dp"
+        android:text="@string/zrobzdj"
         app:layout_constraintBottom_toBottomOf="@+id/bnt_logout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -118,5 +119,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/step_btn" />
+
+    <Button
+        android:id="@+id/pl_btn"
+        android:layout_width="76dp"
+
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="PL"
+        app:layout_constraintBottom_toTopOf="@+id/bnt_logout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eng_btn" />
+
+    <Button
+        android:id="@+id/eng_btn"
+        android:layout_width="76dp"
+        android:layout_height="wrap_content"
+        android:text="ENG"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/map_btn" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 

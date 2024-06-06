@@ -13,7 +13,7 @@
         android:id="@+id/steps"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Kroki"
+        android:text="@string/kroki"
         android:textSize="45sp"
         android:layout_marginTop="290dp"
         app:layout_constraintEnd_toEndOf="parent"
