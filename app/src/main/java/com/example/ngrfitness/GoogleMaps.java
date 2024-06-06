@@ -1,10 +1,12 @@
 package com.example.ngrfitness;
 
+import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.LayoutInflater;
 import android.widget.Button;
 import android.widget.SearchView;
@@ -55,14 +57,14 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback {
-
     GoogleMap myMap;
     private static final int FINE_PERMISSION_CODE = 1;
+    private static final int FINE_PERMISSION_CODE2 = 2;
     Location currentLocation;
     FusedLocationProviderClient fusedLocationProviderClient;
     LatLng destinationLatLng,myLocation;
     SearchView mapSearchView;
-    Button pathFinderBtn;
+    Button pathFinderBtn,sendHelpBtn;
     private ApiInterface apiInterface;
     private List<LatLng> polylinelist;
     private PolylineOptions polylineOptions;
@@ -74,7 +76,7 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
         setContentView(R.layout.activity_google_maps);
         mapSearchView=findViewById(R.id.mapSearch);
         pathFinderBtn =findViewById(R.id.pathFinderBtn);
-
+        sendHelpBtn = findViewById(R.id.sendHelpBtn);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -139,6 +141,27 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
 
         });
 
+        sendHelpBtn.setOnClickListener(view -> {
+            if(ContextCompat.checkSelfPermission(GoogleMaps.this, Manifest.permission.SEND_SMS)
+            == PackageManager.PERMISSION_GRANTED){
+                sendSMS();
+            }else{
+                ActivityCompat.requestPermissions(GoogleMaps.this,new String[]{android.Manifest.permission.SEND_SMS},FINE_PERMISSION_CODE2);
+
+            }
+
+        });
+
+    }
+
+
+    private void sendSMS(){
+        String phone ="+1-555-521-5554";
+        String message="Potrzebuje pilnej pomocy! Moje współrzędne:\n " + myLocation.latitude + "," + myLocation.longitude;
+
+        SmsManager smsManager = SmsManager.getDefault();
+        smsManager.sendTextMessage(phone,null,message,null,null);
+        Toast.makeText(this, "Pomyślnie wysłano prośbę o pomoc", Toast.LENGTH_SHORT).show();
     }
 
     private void getDirection(String origin, String destination){
@@ -177,7 +200,7 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
 
                     @Override
                     public void onError(Throwable e) {
-                        Toast.makeText(GoogleMaps.this, "sadasdjasdjlkasjdlkasjdkalsd", Toast.LENGTH_LONG).show();
+                        Toast.makeText(GoogleMaps.this, "Error", Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -269,5 +292,16 @@ public class GoogleMaps extends AppCompatActivity implements OnMapReadyCallback 
                     Toast.makeText(this,"Brak dostępu do lokalizacji",Toast.LENGTH_SHORT).show();
             }
         }
+
+        if(requestCode== FINE_PERMISSION_CODE2){
+            if(grantResults.length >0 && grantResults[0]== PackageManager.PERMISSION_GRANTED){
+                sendSMS();
+
+            }
+            else{
+                Toast.makeText(this,"Brak pozwolenia",Toast.LENGTH_SHORT).show();
+            }
+        }
+
     }
 }
