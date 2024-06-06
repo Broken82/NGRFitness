@@ -1,6 +1,7 @@
 package com.example.ngrfitness;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -64,7 +65,7 @@ public class GoogleMaps extends AppCompat implements OnMapReadyCallback {
     FusedLocationProviderClient fusedLocationProviderClient;
     LatLng destinationLatLng,myLocation;
     SearchView mapSearchView;
-    Button pathFinderBtn,sendHelpBtn;
+    Button pathFinderBtn,sendHelpBtn,backBtn;
     private ApiInterface apiInterface;
     private List<LatLng> polylinelist;
     private PolylineOptions polylineOptions;
@@ -77,7 +78,7 @@ public class GoogleMaps extends AppCompat implements OnMapReadyCallback {
         mapSearchView=findViewById(R.id.mapSearch);
         pathFinderBtn =findViewById(R.id.pathFinderBtn);
         sendHelpBtn = findViewById(R.id.sendHelpBtn);
-
+        backBtn = findViewById(R.id.goBack);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -150,6 +151,11 @@ public class GoogleMaps extends AppCompat implements OnMapReadyCallback {
 
             }
 
+        });
+        backBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            finish();
         });
 
     }
