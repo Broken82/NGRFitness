@@ -10,27 +10,34 @@ import androidx.room.PrimaryKey;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 
+/**
+ * Klasa reprezentująca encję `steps` w bazie danych Room.
+ */
 @Entity(tableName = "steps")
 public class StepCount {
 
     @PrimaryKey(autoGenerate = true)
-    public int uid;
-
+    public int uid; // Unikalny identyfikator rekordu
 
     @ColumnInfo(name = "steps")
-    public long steps;
+    public long steps; // Liczba kroków
 
     @ColumnInfo(name = "created_at")
-    public String createdAt;
+    public String createdAt; // Data utworzenia rekordu w formacie znaku czasu
 
+    /**
+     * Zwraca reprezentację obiektu StepCount w formie łańcucha znaków.
+     *
+     * @return String Reprezentacja obiektu StepCount.
+     */
     @NonNull
     @Override
     public String toString() {
         LocalDate date = null;
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        // Konwersja znaku czasu na lokalną datę
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             try {
                 long timestamp = Long.parseLong(createdAt);
                 Instant instant = Instant.ofEpochMilli(timestamp);
@@ -40,6 +47,7 @@ public class StepCount {
             }
         }
 
+        // Zwracanie sformatowanego ciągu znaków
         return String.format("Kroki: %d, Data: %s", steps, date != null ? date.toString() : "Błędna data");
     }
 }

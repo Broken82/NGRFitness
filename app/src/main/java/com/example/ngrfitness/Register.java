@@ -28,38 +28,54 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
-public class Register extends AppCompat {
+/**
+ * Klasa reprezentująca aktywność rejestracji użytkownika.
+ */
+public class Register extends AppCompatActivity {
 
-    TextInputEditText editTextEmail, editTextPassword, editTextNick;
-    Button buttonReg;
-    FirebaseAuth mAuth;
+    TextInputEditText editTextEmail, editTextPassword, editTextNick; // Pola edycyjne do wprowadzania e-maila, hasła i pseudonimu
+    Button buttonReg; // Przycisk do rejestracji
+    FirebaseAuth mAuth; // Instancja FirebaseAuth do uwierzytelniania użytkowników
+    ProgressBar progressBar; // Pasek postępu widoczny podczas rejestracji
+    TextView textView; // Tekst umożliwiający przejście do logowania
 
-    ProgressBar progressBar;
-
-    TextView textView;
-
+    /**
+     * Metoda wywoływana na początku cyklu życia aktywności.
+     * Sprawdza, czy użytkownik jest zalogowany.
+     */
     @Override
     public void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
+        if (currentUser != null) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
             finish();
         }
     }
 
+    /**
+     * Metoda wywoływana podczas tworzenia aktywności.
+     *
+     * @param savedInstanceState Zapisany stan instancji.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Włącz wyświetlanie krawędzi do krawędzi
         EdgeToEdge.enable(this);
+
         setContentView(R.layout.activity_register);
+
+        // Ustaw wcięcia okna dla wyświetlania krawędzi do krawędzi
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
+        // Inicjalizacja elementów interfejsu użytkownika
         editTextEmail = findViewById(R.id.email);
         editTextPassword = findViewById(R.id.password);
         editTextNick = findViewById(R.id.nickname);
@@ -68,75 +84,77 @@ public class Register extends AppCompat {
         progressBar = findViewById(R.id.progressBar);
         textView = findViewById(R.id.loginNow);
 
+        // Ustaw listener dla tekstu umożliwiającego przejście do logowania
         textView.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), Login.class);
             startActivity(intent);
             finish();
         });
 
-        buttonReg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                progressBar.setVisibility(View.VISIBLE);
-                String email, password, nickname;
-                email = String.valueOf(editTextEmail.getText());
-                password = String.valueOf(editTextPassword.getText());
-                nickname = String.valueOf(editTextNick.getText());
+        // Ustaw listener dla przycisku rejestracji
+        buttonReg.setOnClickListener(v -> {
+            progressBar.setVisibility(View.VISIBLE);
+            String email, password, nickname;
+            email = String.valueOf(editTextEmail.getText());
+            password = String.valueOf(editTextPassword.getText());
+            nickname = String.valueOf(editTextNick.getText());
 
-
-                if(TextUtils.isEmpty(email)){
-                    Toast.makeText(Register.this, Register.this.getResources().getString(R.string.wpisz_mail), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if(TextUtils.isEmpty(password)){
-                    Toast.makeText(Register.this, Register.this.getResources().getString(R.string.wpisz_haslo), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                FirebaseAuth mAuth = FirebaseAuth.getInstance();
-
-                mAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                progressBar.setVisibility(View.GONE);
-                                if (task.isSuccessful()) {
-                                    FirebaseUser user = mAuth.getCurrentUser();
-
-                                    if (user != null) {
-                                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                                .setDisplayName(nickname)
-                                                .setPhotoUri(Uri.parse("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5Flyp08L_jlfA0D5Dydp8N74NTwByOZtKbw&s"))
-                                                .build();
-
-                                        user.updateProfile(profileUpdates)
-                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        if (task.isSuccessful()) {
-                                                            Toast.makeText(Register.this, Register.this.getResources().getString(R.string.rejestr_sukces),
-                                                                    Toast.LENGTH_SHORT).show();
-                                                            Intent intent = new Intent(getApplicationContext(), Login.class);
-                                                            startActivity(intent);
-                                                            finish();
-                                                        } else {
-                                                            Toast.makeText(Register.this, Register.this.getResources().getString(R.string.rejestr_sukces_blad),
-                                                                    Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    }
-                                                });
-                                    }
-                                } else {
-                                    Toast.makeText(Register.this, Register.this.getResources().getString(R.string.rejestr_blad),
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-
-
+            // Sprawdź, czy e-mail jest pusty
+            if (TextUtils.isEmpty(email)) {
+                Toast.makeText(Register.this, Register.this.getResources().getString(R.string.wpisz_mail), Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            // Sprawdź, czy hasło jest puste
+            if (TextUtils.isEmpty(password)) {
+                Toast.makeText(Register.this, Register.this.getResources().getString(R.string.wpisz_haslo), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Utwórz nowego użytkownika za pomocą Firebase Authentication
+            mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+                        /**
+                         * Metoda wywoływana po zakończeniu zadania rejestracji.
+                         *
+                         * @param task Zadanie rejestracji.
+                         */
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            progressBar.setVisibility(View.GONE);
+                            if (task.isSuccessful()) {
+                                FirebaseUser user = mAuth.getCurrentUser();
+
+                                if (user != null) {
+                                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                            .setDisplayName(nickname)
+                                            .setPhotoUri(Uri.parse("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5Flyp08L_jlfA0D5Dydp8N74NTwByOZtKbw&s"))
+                                            .build();
+
+                                    user.updateProfile(profileUpdates)
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Toast.makeText(Register.this, Register.this.getResources().getString(R.string.rejestr_sukces),
+                                                                Toast.LENGTH_SHORT).show();
+                                                        Intent intent = new Intent(getApplicationContext(), Login.class);
+                                                        startActivity(intent);
+                                                        finish();
+                                                    } else {
+                                                        Toast.makeText(Register.this, Register.this.getResources().getString(R.string.rejestr_sukces_blad),
+                                                                Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+                                            });
+                                }
+                            } else {
+                                Toast.makeText(Register.this, Register.this.getResources().getString(R.string.rejestr_blad),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
         });
     }
 }

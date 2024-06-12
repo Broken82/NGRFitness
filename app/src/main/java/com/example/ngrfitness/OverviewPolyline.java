@@ -1,10 +1,26 @@
 package com.example.ngrfitness;
 
+/**
+ * Klasa reprezentująca polilinię używaną w API Google Maps.
+ */
 public class OverviewPolyline {
-    private String points;
-    public String getPoints(){ return points;}
+    private String points; // Kodowane punkty polilinii
 
-    public void setPoints(String points){
+    /**
+     * Zwraca zakodowane punkty polilinii.
+     *
+     * @return String zakodowane punkty polilinii.
+     */
+    public String getPoints() {
+        return points;
+    }
+
+    /**
+     * Ustawia zakodowane punkty polilinii.
+     *
+     * @param points Zakodowane punkty polilinii.
+     */
+    public void setPoints(String points) {
         this.points = points;
     }
 }

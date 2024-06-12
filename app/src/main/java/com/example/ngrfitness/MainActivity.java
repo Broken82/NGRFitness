@@ -80,28 +80,53 @@ public class MainActivity extends AppCompat {
 
 
 
+    /**
+     * Metoda wywoływana na początku cyklu życia aktywności.
+     * Sprawdza, czy użytkownik jest zalogowany.
+     */
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            // Jeśli użytkownik jest zalogowany, przejdź do głównej aktywności
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    /**
+     * Metoda wywoływana podczas tworzenia aktywności.
+     *
+     * @param savedInstanceState Zapisany stan instancji.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Włącz wyświetlanie krawędzi do krawędzi
         EdgeToEdge.enable(this);
+
         setContentView(R.layout.activity_main);
+
+        // Inicjalizacja Firebase
         FirebaseApp.initializeApp(MainActivity.this);
 
+        // Ustaw wcięcia okna dla wyświetlania krawędzi do krawędzi
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
+        // Inicjalizacja reklam mobilnych
+        MobileAds.initialize(this, initializationStatus -> {});
 
-        });
-
+        // Utwórz kanał powiadomień
         createNotificationChannel();
 
+        // Inicjalizacja elementów interfejsu użytkownika
         mAuth = FirebaseAuth.getInstance();
         buttonLogout = findViewById(R.id.bnt_logout);
         btnTheme = findViewById(R.id.theme);
@@ -110,51 +135,46 @@ public class MainActivity extends AppCompat {
         btnSteps = findViewById(R.id.step_btn);
         btnMap = findViewById(R.id.map_btn);
         currentUser = mAuth.getCurrentUser();
-        test= findViewById(R.id.logo_pick);
+        test = findViewById(R.id.logo_pick);
         btnGallery = findViewById(R.id.gallery);
         storageReference = FirebaseStorage.getInstance().getReference();
         adContainerView = findViewById(R.id.ad_view_container);
-        btnENG=findViewById(R.id.eng_btn);
-        btnPL=findViewById(R.id.pl_btn);
+        btnENG = findViewById(R.id.eng_btn);
+        btnPL = findViewById(R.id.pl_btn);
         sharedPreferences = getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE);
         editor = sharedPreferences.edit();
         isNightMode = sharedPreferences.getBoolean("nightMode", false);
 
-        if(isNightMode){
+        // Ustawienie trybu nocnego
+        if (isNightMode) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-
         }
 
+        // Inicjalizacja widoku reklamy
         adContainerView
                 .getViewTreeObserver()
-                .addOnGlobalLayoutListener(
-                        () -> {
-                            if (!initialLayoutComplete.getAndSet(true)) {
-                                AdView adView = new AdView(this);
-                                adView.setAdSize(getAdSize());
-                                adView.setAdUnitId("ca-app-pub-3940256099942544/9214589741");
+                .addOnGlobalLayoutListener(() -> {
+                    if (!initialLayoutComplete.getAndSet(true)) {
+                        AdView adView = new AdView(this);
+                        adView.setAdSize(getAdSize());
+                        adView.setAdUnitId("ca-app-pub-3940256099942544/9214589741");
 
-                                adContainerView.removeAllViews();
-                                adContainerView.addView(adView);
+                        adContainerView.removeAllViews();
+                        adContainerView.addView(adView);
 
-                                AdRequest adRequest = new AdRequest.Builder().build();
-                                adView.loadAd(adRequest);
-                            }
-                        });
+                        AdRequest adRequest = new AdRequest.Builder().build();
+                        adView.loadAd(adRequest);
+                    }
+                });
 
-
-
-
-
-        //request for camera permission
-        if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
+        // Żądanie uprawnień do korzystania z kamery
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{
                     Manifest.permission.CAMERA
-            },100);
+            }, 100);
         }
 
-
-
+        // Listener dla przycisku wylogowania
         buttonLogout.setOnClickListener(v -> {
             mAuth.signOut();
             Intent intent = new Intent(getApplicationContext(), Login.class);
@@ -162,77 +182,82 @@ public class MainActivity extends AppCompat {
             finish();
         });
 
+        // Listener dla przycisku zmiany motywu
         btnTheme.setOnClickListener(view -> {
-            if(isNightMode){
+            if (isNightMode) {
                 Log.d("ThemeSwitch", "Switching to Day Mode");
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
                 editor.putBoolean("nightMode", false);
-            }
-            else {
+            } else {
                 Log.d("ThemeSwitch", "Switching to Night Mode");
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 editor.putBoolean("nightMode", true);
             }
             editor.apply();
-
         });
 
+        // Listener dla przycisku robienia zdjęcia
         btnPicture.setOnClickListener(view -> {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(intent,100);
+            startActivityForResult(intent, 100);
         });
 
+        // Listener dla przycisku otwierania galerii
         btnGallery.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), Gallery.class);
             startActivity(intent);
             finish();
         });
 
+        // Listener dla przycisku otwierania profilu
         btnProfile.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), Profile.class);
             startActivity(intent);
             finish();
         });
 
+        // Listener dla przycisku wyświetlania kroków
         btnSteps.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), Steps.class);
             startActivity(intent);
             finish();
         });
 
+        // Listener dla przycisku otwierania mapy
         btnMap.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), GoogleMaps.class);
             startActivity(intent);
             finish();
         });
 
+        // Inicjalizacja menedżera języka
         LenguageManager lang = new LenguageManager(this);
-        btnPL.setOnClickListener(view -> {
 
+        // Listener dla przycisku zmiany języka na polski
+        btnPL.setOnClickListener(view -> {
             lang.updateResource("pl");
             recreate();
         });
 
+        // Listener dla przycisku zmiany języka na angielski
         btnENG.setOnClickListener(view -> {
-
             lang.updateResource("en");
             recreate();
         });
     }
 
-
-
-
+    /**
+     * Metoda do uzyskania rozmiaru reklamy.
+     *
+     * @return AdSize Rozmiar reklamy.
+     */
     private AdSize getAdSize() {
-
         Display display = getWindowManager().getDefaultDisplay();
         DisplayMetrics outMetrics = new DisplayMetrics();
         display.getMetrics(outMetrics);
 
         float density = outMetrics.density;
-
         float adWidthPixels = adContainerView.getWidth();
-
 
         if (adWidthPixels == 0) {
             adWidthPixels = outMetrics.widthPixels;
@@ -242,49 +267,44 @@ public class MainActivity extends AppCompat {
         return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this, adWidth);
     }
 
+    /**
+     * Metoda do tworzenia kanału powiadomień.
+     */
     public void createNotificationChannel() {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            CharSequence name= "NGRFitnessReminderChannel";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "NGRFitnessReminderChannel";
             String description = MainActivity.this.getResources().getString(R.string.przypominacz);
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("notifyNGRFitness",name,importance);
+            NotificationChannel channel = new NotificationChannel("notifyNGRFitness", name, importance);
             channel.setDescription(description);
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
-
         }
     }
 
-
-
-
+    /**
+     * Metoda wywoływana po zakończeniu aktywności wynikowej.
+     *
+     * @param requestCode Kod żądania.
+     * @param resultCode  Kod wyniku.
+     * @param data        Dane wynikowe.
+     */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
-    {
-        super.onActivityResult(requestCode,resultCode,data);
-        if(requestCode == 100&& resultCode==RESULT_OK){
-            Bitmap bitmap= (Bitmap) data.getExtras().get("data");
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG,100,bytes);
-            String path = MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(),bitmap,"val",null);
-            Uri uri=Uri.parse(path);
-            StorageReference ref = storageReference.child(currentUser.getEmail()+"/" + UUID.randomUUID().toString());
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            String path = MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(), bitmap, "val", null);
+            Uri uri = Uri.parse(path);
+            StorageReference ref = storageReference.child(currentUser.getEmail() + "/" + UUID.randomUUID().toString());
             ref.putFile(uri);
 
-
-
             Toast.makeText(this, MainActivity.this.getResources().getString(R.string.zrobiono_zdj), Toast.LENGTH_SHORT).show();
-
-
-        }
-        else{
+        } else {
             Toast.makeText(this, MainActivity.this.getResources().getString(R.string.zrobiono_zdj), Toast.LENGTH_SHORT).show();
-            super.onActivityResult(requestCode,resultCode,data);
+            super.onActivityResult(requestCode, resultCode, data);
         }
-
-
     }
-
-
-
 }
